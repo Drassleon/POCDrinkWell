@@ -1,12 +1,12 @@
 package pe.edu.upc.pocdrinkwell
 
 import Repository.FormRepository
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import dto.Form
 import networking.RetrofitConfig
 import retrofit2.Call
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Form>, response: Response<Form>) {
                     if(response.body()==null)
                     {
-                        Log.d("Debug",response.body().toString())
+                        Log.d("NetworkingSuccess", response.body().toString())
                         return
                     }
                 }
