@@ -8,7 +8,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dto.Form
+import dto.ResponseDTO
 import networking.RetrofitConfig
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,24 +33,39 @@ class MainActivity : AppCompatActivity() {
         hostInput = findViewById(R.id.hostInput)
         pressButton()
     }
-    fun pressButton(){
+    private fun pressButton(){
         submitButton.setOnClickListener {
+
             var host : String
             var water : String
 
             host = hostInput.text.toString()
             water = waterInput.text.toString()
-
-            formRepository.getCharacterByName(host,water).enqueue(object: Callback<Form>{
-                override fun onFailure(call: Call<Form>, t: Throwable) {
+            Log.d("Networking","Button Pressed")
+            formRepository.getCharacterByName(host,water).enqueue(object: Callback<ResponseDTO>{
+                override fun onFailure(call: Call<ResponseDTO>, t: Throwable) {
                     Toast.makeText(this@MainActivity,"Could not connect to endpoint",Toast.LENGTH_SHORT).show()
                     Log.d("NetworkingError","Could not connect to endpoint",t)
                 }
 
-                override fun onResponse(call: Call<Form>, response: Response<Form>) {
+                override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
                     if(response.body()==null)
                     {
-                        Log.d("NetworkingSuccess", response.body().toString())
+                        Log.d("NetworkingSuccess", "Body is Null")
+                        Toast.makeText(this@MainActivity,"Connected to endpoint successfully",Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                    else
+                    {
+                        Log.d("NetworkingSuccess", response.toString())
+                        Toast.makeText(this@MainActivity,"Connected to endpoint successfully",Toast.LENGTH_SHORT).show()
+
+                        var aux = response.body() as ResponseDTO
+
+                        var obj = aux.obj as Form
+                        var host = obj.host as String
+                        Log.d("NetworkingSuccess",host)
+
                         return
                     }
                 }

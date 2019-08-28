@@ -1,11 +1,14 @@
 package Repository
 
 import dto.Form
+import dto.ResponseDTO
+import okhttp3.Response
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface FormRepository{
         @GET("water-dispensers")
-        fun getCharacterByName(@Query("id")id : String,@Query("water")water : String): Call<Form>
+        fun getCharacterByName(@Query("id")id : String,@Query("water")water : String): Call<ResponseDTO>
 }
