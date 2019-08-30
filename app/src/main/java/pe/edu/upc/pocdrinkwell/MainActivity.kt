@@ -3,7 +3,6 @@ package pe.edu.upc.pocdrinkwell
 import Repository.FormRepository
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -43,9 +42,10 @@ class MainActivity : AppCompatActivity() {
 
             host = "AndroidAP"
             water = waterInput.text.toString()
+            userName = hostInput.text.toString()
             Log.d("Networking","Button Pressed")
             getHost(host,water)
-            postDispenserEvent()
+
         }
     }
     private fun getHost(host: String, water: String){
@@ -58,37 +58,45 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
                 if(response.body()==null)
                 {
-                    Log.d("Networking", "Body is Null")
+                    Log.d("NetworkingGet", "Body is Null")
                     Toast.makeText(this@MainActivity,"Connected to endpoint successfully",Toast.LENGTH_SHORT).show()
                     return
                 }
                 else
                 {
-                    Log.d("Networking", response.toString())
+                    Log.d("NetworkingGet", response.toString())
                     Toast.makeText(this@MainActivity,"Connected to endpoint successfully",Toast.LENGTH_SHORT).show()
 
                     var aux = response.body() as ResponseDTO
 
                     var obj = aux.obj as Form
                     hostGlob = obj.host as String
-                    Log.d("Networking",host)
+                    Log.d("NetworkingGet", host)
+                    postDispenserEvent()
                     return
                 }
             }
         })
     }
     private fun postDispenserEvent(){
+        val hostRepository = RetrofitConfig().getRetrofitInstanceWithHost(hostGlob)
+            .create(FormRepository::class.java)
 
-        formRepository.postDispenser(name = userName,waterAmount = waterInput.text.toString()).enqueue(object: Callback<ResponseBody>{
+        hostRepository.postDispenser(
+            host = hostGlob,
+            name = userName,
+            waterAmount = waterInput.text.toString()
+        ).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Log.d("Networking","Post Successful")
+                Log.d("NetworkingPost", "Post Successful")
+                Log.d("NetworkingPost", response.raw().toString())
                 Toast.makeText(this@MainActivity,"Post Successful",Toast.LENGTH_SHORT).show()
-                finish()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(this@MainActivity,"Post failed!",Toast.LENGTH_SHORT).show()
-                Log.d("Networking","Post Failed!",t)
+                Log.d("NetworkingPost", "URL called ${call.request()}")
+                Log.d("NetworkingPost", "Post Failed!", t)
             }
         })
     }

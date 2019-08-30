@@ -22,5 +22,18 @@ class RetrofitConfig{
             .build()
         return retrofit
     }
+
+    fun getRetrofitInstanceWithHost(host: String): Retrofit {
+
+        val builder = GsonBuilder()
+        builder.excludeFieldsWithoutExposeAnnotation()
+        val gson = builder.create()
+
+        retrofit = retrofit2.Retrofit.Builder()
+            .baseUrl("http://${host}/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+        return retrofit
+    }
 }
 
