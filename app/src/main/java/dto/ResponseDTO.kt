@@ -19,4 +19,6 @@ class ResponseDTO {
     @Expose
     @SerializedName("object")
     var obj: Form? = null
+    @SerializedName("time")
+    var time: String? = null
 }

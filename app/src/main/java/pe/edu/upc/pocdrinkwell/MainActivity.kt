@@ -72,20 +72,27 @@ class MainActivity : AppCompatActivity() {
                     var obj = aux.obj as Form
                     hostGlob = obj.host as String
                     Log.d("NetworkingGet", host)
-                    postDispenserEvent()
+                    var time: String = "Null"
+                    if (aux.time != null) {
+                        time = aux.time as String
+                    }
+
+
+                    postDispenserEvent(time)
                     return
                 }
             }
         })
     }
-    private fun postDispenserEvent(){
+
+    private fun postDispenserEvent(time: String) {
         val hostRepository = RetrofitConfig().getRetrofitInstanceWithHost(hostGlob)
             .create(FormRepository::class.java)
 
         hostRepository.postDispenser(
-            host = hostGlob,
             name = userName,
-            waterAmount = waterInput.text.toString()
+            waterAmount = waterInput.text.toString(),
+            time = time
         ).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Log.d("NetworkingPost", "Post Successful")
