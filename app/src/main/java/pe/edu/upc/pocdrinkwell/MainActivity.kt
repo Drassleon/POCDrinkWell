@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("NetworkingGet", response.toString())
                     Toast.makeText(this@MainActivity,"Connected to endpoint successfully",Toast.LENGTH_SHORT).show()
 
-                    var aux = response.body() as ResponseDTO
+                    val aux = response.body() as ResponseDTO
 
-                    var obj = aux.obj as Form
+                    val obj = aux.obj as Form
                     hostGlob = obj.host as String
                     Log.d("NetworkingGet", host)
                     var time: String = "Null"
@@ -77,7 +77,16 @@ class MainActivity : AppCompatActivity() {
                         time = aux.time as String
                     }
 
-
+                    val waterInDispenser = obj.realWater
+                    val waterRequested = waterInput.text.toString().toDouble()
+                    if (waterInDispenser < waterRequested) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Water Requested surpasses water amount in dispenser",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
                     postDispenserEvent(time)
                     return
                 }
