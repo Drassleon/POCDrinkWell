@@ -68,11 +68,19 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity,"Connected to endpoint successfully",Toast.LENGTH_SHORT).show()
 
                     val aux = response.body() as ResponseDTO
-
+                    if (aux.obj == null) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Water Requested surpasses water amount in dispenser",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
                     val obj = aux.obj as Form
                     hostGlob = obj.host as String
-                    Log.d("NetworkingGet", host)
-                    var time: String = "Null"
+                    Log.d("NetworkingGet", "USERNAME: $host")
+                    Log.d("NetworkingGet", "REAL WATER: ${obj.realWater}")
+                    var time = "Null"
                     if (aux.time != null) {
                         time = aux.time as String
                     }

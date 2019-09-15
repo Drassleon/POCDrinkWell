@@ -74,7 +74,7 @@
                 app:layout_constraintStart_toEndOf="@id/waterLabel"
                 android:fontFamily="cursive"
                 app:layout_constraintTop_toTopOf="parent"
-                android:inputType="phone"
+                android:inputType="numberDecimal"
                 android:imeOptions="actionNext"
                 />
             <TextView
