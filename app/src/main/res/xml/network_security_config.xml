@@ -3,5 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">drinkwell-env.jjap2p8ksx.us-east-2.elasticbeanstalk.com
         </domain>
+        <domain includeSubdomains="true">192.168.43.101
+        </domain>
     </domain-config>
 </network-security-config>

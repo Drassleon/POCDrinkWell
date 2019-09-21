@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<ResponseDTO>, response: Response<ResponseDTO>) {
+                Log.d("Networking","${call.request().url()}")
                 if(response.body()==null)
                 {
                     Log.d("NetworkingGet", "Body is Null")
