@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun pressButton() {
         submitButton.setOnClickListener {
             if (!flagButton) {
+                flagButton = true
                 var host: String
                 var water: String
 
@@ -54,7 +55,14 @@ class MainActivity : AppCompatActivity() {
                         getHost(host, water)
                     }
                 }
-                flagButton = true
+                flagButton = false
+            }
+            if (flagButton) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Please wait for connection before pressing button again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
