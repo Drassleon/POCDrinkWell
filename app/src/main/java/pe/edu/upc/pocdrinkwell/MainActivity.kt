@@ -41,20 +41,12 @@ class MainActivity : AppCompatActivity() {
         submitButton.setOnClickListener {
             if (!flagButton) {
                 flagButton = true
-                var host: String
-                var water: String
+                val host = "AndroidAP"
+                val water: String = waterInput.text.toString()
 
-                host = "AndroidAP"
-                water = waterInput.text.toString()
                 userName = hostInput.text.toString()
                 Log.d("Networking", "Button Pressed")
-                try {
-                    getHost(host, "0")
-                } finally {
-                    if (flagDispenser) {
-                        getHost(host, water)
-                    }
-                }
+                getHost(host = host, water = water)
                 flagButton = false
             }
             if (flagButton) {
@@ -113,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                     if (aux.time != null) {
                         time = aux.time as String
                     }
-
+                    /*
                     val waterInDispenser = obj.realWater
                     val waterRequested = waterInput.text.toString().toDouble()
                     if (waterInDispenser < waterRequested) {
@@ -124,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                         return
                     }
+                    */
                     postDispenserEvent(time)
                     return
                 }
